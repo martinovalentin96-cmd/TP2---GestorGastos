@@ -7,17 +7,40 @@ import ListaMovimientos from "./components/ListaMovimientos";
 function App() {
   const [movimientos, setMovimientos] = useState([]);
   const [filtroCategoria, setFiltroCategoria] = useState("Todas");
+  const [movimientoEditando, setMovimientoEditando] = useState(null);
 
   const agregarMovimiento = (nuevoMovimiento) => {
     setMovimientos([...movimientos, nuevoMovimiento]);
   };
 
+  const eliminarMovimiento = (id) => {
+    setMovimientos(movimientos.filter((movimiento) => movimiento.id !== id));
+  };
+
+  const iniciarEdicion = (movimiento) => {
+    setMovimientoEditando(movimiento);
+  };
+
+  const guardarEdicion = (movimientoActualizado) => {
+    setMovimientos(
+      movimientos.map((movimiento) =>
+        movimiento.id === movimientoActualizado.id
+          ? movimientoActualizado
+          : movimiento
+      )
+    );
+
+    setMovimientoEditando(null);
+  };
+
+  const cancelarEdicion = () => {
+    setMovimientoEditando(null);
+  };
+
   const balanceTotal = movimientos.reduce((acumulador, movimiento) => {
-    if (movimiento.tipo === "Ingreso") {
-      return acumulador + movimiento.monto;
-    } else {
-      return acumulador - movimiento.monto;
-    }
+    return movimiento.tipo === "Ingreso"
+      ? acumulador + movimiento.monto
+      : acumulador - movimiento.monto;
   }, 0);
 
   const movimientosFiltrados =
@@ -34,10 +57,16 @@ function App() {
 
         <Balance total={balanceTotal} />
 
-        <FormularioMovimiento onAgregar={agregarMovimiento} />
+        <FormularioMovimiento
+          onAgregar={agregarMovimiento}
+          movimientoEditando={movimientoEditando}
+          onGuardarEdicion={guardarEdicion}
+          onCancelarEdicion={cancelarEdicion}
+        />
 
         <section className="filtro-contenedor">
           <h2>Filtrar por categoría</h2>
+
           <select
             className="filtro-select"
             value={filtroCategoria}
@@ -52,7 +81,11 @@ function App() {
           </select>
         </section>
 
-        <ListaMovimientos movimientos={movimientosFiltrados} />
+        <ListaMovimientos
+          movimientos={movimientosFiltrados}
+          onEliminar={eliminarMovimiento}
+          onEditar={iniciarEdicion}
+        />
       </div>
     </div>
   );

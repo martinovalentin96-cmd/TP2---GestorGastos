@@ -1,6 +1,6 @@
 import ItemMovimiento from "./ItemMovimiento";
 
-function ListaMovimientos({ movimientos }) {
+function ListaMovimientos({ movimientos, onEliminar, onEditar }) {
   return (
     <section className="lista-contenedor">
       <h2>Movimientos Registrados</h2>
@@ -12,7 +12,12 @@ function ListaMovimientos({ movimientos }) {
           </p>
         ) : (
           movimientos.map((movimiento) => (
-            <ItemMovimiento key={movimiento.id} movimiento={movimiento} />
+            <ItemMovimiento
+              key={movimiento.id}
+              movimiento={movimiento}
+              onEliminar={onEliminar}
+              onEditar={onEditar}
+            />
           ))
         )}
       </div>

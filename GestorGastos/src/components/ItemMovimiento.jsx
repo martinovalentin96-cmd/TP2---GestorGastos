@@ -1,4 +1,4 @@
-function ItemMovimiento({ movimiento }) {
+function ItemMovimiento({ movimiento, onEliminar, onEditar }) {
   return (
     <article
       className={`item ${movimiento.tipo === "Ingreso" ? "ingreso" : "gasto"}`}
@@ -9,9 +9,27 @@ function ItemMovimiento({ movimiento }) {
         <p className="item-categoria">Categoría: {movimiento.categoria}</p>
       </div>
 
-      <p className="item-monto">
-        {movimiento.tipo === "Ingreso" ? "+ " : "- "}$ {movimiento.monto}
-      </p>
+      <div className="item-derecha">
+        <p className="item-monto">
+          {movimiento.tipo === "Ingreso" ? "+ " : "- "}$ {movimiento.monto}
+        </p>
+
+        <div className="acciones-item">
+          <button
+            className="boton-editar"
+            onClick={() => onEditar(movimiento)}
+          >
+            Editar
+          </button>
+
+          <button
+            className="boton-eliminar"
+            onClick={() => onEliminar(movimiento.id)}
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
     </article>
   );
 }

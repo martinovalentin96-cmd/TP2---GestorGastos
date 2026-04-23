@@ -1,11 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function FormularioMovimiento({ onAgregar }) {
+function FormularioMovimiento({
+  onAgregar,
+  movimientoEditando,
+  onGuardarEdicion,
+  onCancelarEdicion,
+}) {
   const [descripcion, setDescripcion] = useState("");
   const [monto, setMonto] = useState("");
   const [tipo, setTipo] = useState("Ingreso");
   const [categoria, setCategoria] = useState("Comida");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (movimientoEditando) {
+      setDescripcion(movimientoEditando.descripcion);
+      setMonto(movimientoEditando.monto);
+      setTipo(movimientoEditando.tipo);
+      setCategoria(movimientoEditando.categoria);
+      setError("");
+    }
+  }, [movimientoEditando]);
+
+  const limpiarFormulario = () => {
+    setDescripcion("");
+    setMonto("");
+    setTipo("Ingreso");
+    setCategoria("Comida");
+    setError("");
+  };
 
   const manejarEnvio = (e) => {
     e.preventDefault();
@@ -30,26 +53,39 @@ function FormularioMovimiento({ onAgregar }) {
       return;
     }
 
-    const nuevoMovimiento = {
-      id: Date.now(),
-      descripcion: descripcion.trim(),
-      monto: Number(monto),
-      tipo: tipo,
-      categoria: categoria,
-    };
+    if (movimientoEditando) {
+      const movimientoActualizado = {
+        id: movimientoEditando.id,
+        descripcion: descripcion.trim(),
+        monto: Number(monto),
+        tipo,
+        categoria,
+      };
 
-    onAgregar(nuevoMovimiento);
+      onGuardarEdicion(movimientoActualizado);
+    } else {
+      const nuevoMovimiento = {
+        id: Date.now(),
+        descripcion: descripcion.trim(),
+        monto: Number(monto),
+        tipo,
+        categoria,
+      };
 
-    setDescripcion("");
-    setMonto("");
-    setTipo("Ingreso");
-    setCategoria("Comida");
-    setError("");
+      onAgregar(nuevoMovimiento);
+    }
+
+    limpiarFormulario();
+  };
+
+  const manejarCancelar = () => {
+    limpiarFormulario();
+    onCancelarEdicion();
   };
 
   return (
     <section className="formulario-contenedor">
-      <h2>Registrar Movimiento</h2>
+      <h2>{movimientoEditando ? "Editar Movimiento" : "Registrar Movimiento"}</h2>
 
       <form className="formulario" onSubmit={manejarEnvio}>
         <input
@@ -84,7 +120,19 @@ function FormularioMovimiento({ onAgregar }) {
 
         {error && <p className="error">{error}</p>}
 
-        <button type="submit">Agregar movimiento</button>
+        <button type="submit">
+          {movimientoEditando ? "Guardar cambios" : "Agregar movimiento"}
+        </button>
+
+        {movimientoEditando && (
+          <button
+            type="button"
+            className="boton-cancelar"
+            onClick={manejarCancelar}
+          >
+            Cancelar edición
+          </button>
+        )}
       </form>
     </section>
   );
