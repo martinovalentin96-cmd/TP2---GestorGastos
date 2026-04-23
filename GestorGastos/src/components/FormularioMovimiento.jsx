@@ -60,6 +60,7 @@ function FormularioMovimiento({
         monto: Number(monto),
         tipo,
         categoria,
+        fecha: movimientoEditando.fecha, // mantiene la fecha original
       };
 
       onGuardarEdicion(movimientoActualizado);
@@ -70,6 +71,7 @@ function FormularioMovimiento({
         monto: Number(monto),
         tipo,
         categoria,
+        fecha: new Date().toLocaleString(), // NUEVO
       };
 
       onAgregar(nuevoMovimiento);
@@ -107,10 +109,7 @@ function FormularioMovimiento({
           <option value="Gasto">Gasto</option>
         </select>
 
-        <select
-          value={categoria}
-          onChange={(e) => setCategoria(e.target.value)}
-        >
+        <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
           <option value="Comida">Comida</option>
           <option value="Transporte">Transporte</option>
           <option value="Ocio">Ocio</option>
@@ -125,11 +124,7 @@ function FormularioMovimiento({
         </button>
 
         {movimientoEditando && (
-          <button
-            type="button"
-            className="boton-cancelar"
-            onClick={manejarCancelar}
-          >
+          <button type="button" className="boton-cancelar" onClick={manejarCancelar}>
             Cancelar edición
           </button>
         )}

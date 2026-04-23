@@ -8,6 +8,7 @@ function App() {
   const [movimientos, setMovimientos] = useState([]);
   const [filtroCategoria, setFiltroCategoria] = useState("Todas");
   const [movimientoEditando, setMovimientoEditando] = useState(null);
+  const [orden, setOrden] = useState("carga");
 
   const agregarMovimiento = (nuevoMovimiento) => {
     setMovimientos([...movimientos, nuevoMovimiento]);
@@ -50,6 +51,18 @@ function App() {
           (movimiento) => movimiento.categoria === filtroCategoria
         );
 
+  const movimientosOrdenados = [...movimientosFiltrados].sort((a, b) => {
+    if (orden === "mayor") {
+      return b.monto - a.monto;
+    }
+
+    if (orden === "menor") {
+      return a.monto - b.monto;
+    }
+
+    return a.id - b.id;
+  });
+
   return (
     <div className="app">
       <div className="contenedor">
@@ -81,8 +94,22 @@ function App() {
           </select>
         </section>
 
+        <section className="orden-contenedor">
+          <h2>Ordenar movimientos</h2>
+
+          <select
+            className="orden-select"
+            value={orden}
+            onChange={(e) => setOrden(e.target.value)}
+          >
+            <option value="carga">Orden de carga</option>
+            <option value="mayor">Mayor a menor monto</option>
+            <option value="menor">Menor a mayor monto</option>
+          </select>
+        </section>
+
         <ListaMovimientos
-          movimientos={movimientosFiltrados}
+          movimientos={movimientosOrdenados}
           onEliminar={eliminarMovimiento}
           onEditar={iniciarEdicion}
         />

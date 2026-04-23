@@ -7,6 +7,7 @@ function ItemMovimiento({ movimiento, onEliminar, onEditar }) {
         <p className="item-descripcion">{movimiento.descripcion}</p>
         <p className="item-tipo">{movimiento.tipo}</p>
         <p className="item-categoria">Categoría: {movimiento.categoria}</p>
+        <p className="item-fecha">Fecha: {movimiento.fecha}</p>
       </div>
 
       <div className="item-derecha">
