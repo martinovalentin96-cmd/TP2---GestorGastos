@@ -6,6 +6,7 @@ import ListaMovimientos from "./components/ListaMovimientos";
 
 function App() {
   const [movimientos, setMovimientos] = useState([]);
+  const [filtroCategoria, setFiltroCategoria] = useState("Todas");
 
   const agregarMovimiento = (nuevoMovimiento) => {
     setMovimientos([...movimientos, nuevoMovimiento]);
@@ -19,6 +20,13 @@ function App() {
     }
   }, 0);
 
+  const movimientosFiltrados =
+    filtroCategoria === "Todas"
+      ? movimientos
+      : movimientos.filter(
+          (movimiento) => movimiento.categoria === filtroCategoria
+        );
+
   return (
     <div className="app">
       <div className="contenedor">
@@ -28,7 +36,23 @@ function App() {
 
         <FormularioMovimiento onAgregar={agregarMovimiento} />
 
-        <ListaMovimientos movimientos={movimientos} />
+        <section className="filtro-contenedor">
+          <h2>Filtrar por categoría</h2>
+          <select
+            className="filtro-select"
+            value={filtroCategoria}
+            onChange={(e) => setFiltroCategoria(e.target.value)}
+          >
+            <option value="Todas">Todas</option>
+            <option value="Comida">Comida</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Ocio">Ocio</option>
+            <option value="Salud">Salud</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </section>
+
+        <ListaMovimientos movimientos={movimientosFiltrados} />
       </div>
     </div>
   );

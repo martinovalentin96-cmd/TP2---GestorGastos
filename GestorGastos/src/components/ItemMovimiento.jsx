@@ -6,6 +6,7 @@ function ItemMovimiento({ movimiento }) {
       <div>
         <p className="item-descripcion">{movimiento.descripcion}</p>
         <p className="item-tipo">{movimiento.tipo}</p>
+        <p className="item-categoria">Categoría: {movimiento.categoria}</p>
       </div>
 
       <p className="item-monto">
