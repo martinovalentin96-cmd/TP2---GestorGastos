@@ -160,4 +160,11 @@
   .balance-numero {
     font-size: 1.6rem;
   }
+  
+}
+.error {
+  color: #ff6b6b;
+  font-size: 0.95rem;
+  margin-top: -8px;
+  margin-bottom: 4px;
 }

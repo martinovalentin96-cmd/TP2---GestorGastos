@@ -5,11 +5,7 @@ import FormularioMovimiento from "./components/FormularioMovimiento";
 import ListaMovimientos from "./components/ListaMovimientos";
 
 function App() {
-  const [movimientos, setMovimientos] = useState([
-    { id: 1, descripcion: "Sueldo", monto: 250000, tipo: "Ingreso" },
-    { id: 2, descripcion: "Alquiler", monto: 80000, tipo: "Gasto" },
-    { id: 3, descripcion: "Internet", monto: 12000, tipo: "Gasto" }
-  ]);
+  const [movimientos, setMovimientos] = useState([]);
 
   const agregarMovimiento = (nuevoMovimiento) => {
     setMovimientos([...movimientos, nuevoMovimiento]);

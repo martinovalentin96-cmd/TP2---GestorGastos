@@ -6,9 +6,13 @@ function ListaMovimientos({ movimientos }) {
       <h2>Movimientos Registrados</h2>
 
       <div className="lista">
-        {movimientos.map((movimiento) => (
-          <ItemMovimiento key={movimiento.id} movimiento={movimiento} />
-        ))}
+        {movimientos.length === 0 ? (
+          <p className="sin-movimientos">No hay movimientos registrados.</p>
+        ) : (
+          movimientos.map((movimiento) => (
+            <ItemMovimiento key={movimiento.id} movimiento={movimiento} />
+          ))
+        )}
       </div>
     </section>
   );

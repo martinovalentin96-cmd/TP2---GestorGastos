@@ -4,28 +4,45 @@ function FormularioMovimiento({ onAgregar }) {
   const [descripcion, setDescripcion] = useState("");
   const [monto, setMonto] = useState("");
   const [tipo, setTipo] = useState("Ingreso");
+  const [error, setError] = useState("");
 
-  const manejarEnvio = (e) => {
-    e.preventDefault();
+const manejarEnvio = (e) => {
+  e.preventDefault();
 
-    if (descripcion.trim() === "" || monto === "" || Number(monto) <= 0) {
-      alert("Completá todos los campos correctamente.");
-      return;
-    }
+  if (descripcion.trim() === "") {
+    setError("La descripción no puede estar vacía.");
+    return;
+  }
 
-    const nuevoMovimiento = {
-      id: Date.now(),
-      descripcion: descripcion,
-      monto: Number(monto),
-      tipo: tipo
-    };
+  if (!/[a-zA-Z]/.test(descripcion)) {
+    setError("La descripción debe contener texto (no solo números).");
+    return;
+  }
 
-    onAgregar(nuevoMovimiento);
+  if (monto === "" || isNaN(monto)) {
+    setError("El monto debe ser un número válido.");
+    return;
+  }
 
-    setDescripcion("");
-    setMonto("");
-    setTipo("Ingreso");
+  if (Number(monto) <= 0) {
+    setError("El monto debe ser mayor a 0.");
+    return;
+  }
+
+  const nuevoMovimiento = {
+    id: Date.now(),
+    descripcion: descripcion.trim(),
+    monto: Number(monto),
+    tipo: tipo,
   };
+
+  onAgregar(nuevoMovimiento);
+
+  setDescripcion("");
+  setMonto("");
+  setTipo("Ingreso");
+  setError("");
+};
 
   return (
     <section className="formulario-contenedor">
@@ -46,10 +63,15 @@ function FormularioMovimiento({ onAgregar }) {
           onChange={(e) => setMonto(e.target.value)}
         />
 
-        <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+        <select
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
+        >
           <option value="Ingreso">Ingreso</option>
           <option value="Gasto">Gasto</option>
         </select>
+
+        {error && <p className="error">{error}</p>}
 
         <button type="submit">Agregar movimiento</button>
       </form>
