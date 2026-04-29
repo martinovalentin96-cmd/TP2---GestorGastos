@@ -7,72 +7,92 @@
 }
 
 .contenedor {
-  max-width: 850px;
+  max-width: 900px;
   margin: 0 auto;
-  background-color: #111111;
-  border-left: 2px solid #7a1020;
-  border-right: 2px solid #7a1020;
-  padding: 30px;
-  box-shadow: 0 0 30px rgba(122, 16, 32, 0.15);
+  background-color: #101010;
+  border: 1px solid #2a2a2a;
+  border-radius: 22px;
+  padding: 32px;
+  box-shadow: 0 0 35px rgba(122, 16, 32, 0.22);
 }
 
 .titulo {
   text-align: center;
   color: #ffffff;
-  margin-bottom: 30px;
-  font-size: 2rem;
+  margin-bottom: 32px;
+  font-size: 2.1rem;
+  border-bottom: 2px solid #7a1020;
+  padding-bottom: 18px;
 }
 
-.balance {
-  background-color: #1a1a1a;
-  border-radius: 18px;
-  padding: 24px;
-  margin-bottom: 28px;
-  border-left: 6px solid #7a1020;
-}
-
-.balance h2 {
-  margin: 0 0 12px 0;
-  color: #ffffff;
-}
-
-.balance-numero {
-  margin: 0;
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #ffffff;
-}
-
+.balance,
 .formulario-contenedor,
 .lista-contenedor,
 .filtro-contenedor,
-.orden-contenedor {
-  background-color: #151515;
+.orden-contenedor,
+.limite-contenedor {
+  background-color: #171717;
   border: 1px solid #333333;
   border-radius: 18px;
   padding: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
 }
 
+.balance {
+  border-left: 6px solid #7a1020;
+}
+
+.balance h2,
 .formulario-contenedor h2,
 .lista-contenedor h2,
 .filtro-contenedor h2,
-.orden-contenedor h2 {
+.orden-contenedor h2,
+.limite-contenedor h2 {
   margin-top: 0;
   margin-bottom: 18px;
   color: #ffffff;
 }
 
+.balance-numero {
+  margin: 0;
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.balance.alerta {
+  background: linear-gradient(135deg, #2a0008, #170000);
+  border: 2px solid #ff1f3d;
+  border-left: 8px solid #ff1f3d;
+  box-shadow: 0 0 25px rgba(255, 31, 61, 0.55);
+  animation: alertaPresupuesto 1s infinite alternate;
+}
+
+.balance.alerta .balance-numero {
+  color: #ff4d5f;
+}
+
+@keyframes alertaPresupuesto {
+  from {
+    box-shadow: 0 0 12px rgba(255, 31, 61, 0.35);
+  }
+
+  to {
+    box-shadow: 0 0 30px rgba(255, 31, 61, 0.75);
+  }
+}
+
 .formulario {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .formulario input,
 .formulario select,
 .filtro-select,
-.orden-select {
+.orden-select,
+.limite-contenedor input {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
@@ -83,16 +103,18 @@
   outline: none;
 }
 
-.formulario input::placeholder {
-  color: #d0d0d0;
+.formulario input::placeholder,
+.limite-contenedor input::placeholder {
+  color: #bdbdbd;
 }
 
 .formulario input:focus,
 .formulario select:focus,
 .filtro-select:focus,
-.orden-select:focus {
-  border-color: #b3132f;
-  box-shadow: 0 0 8px rgba(179, 19, 47, 0.35);
+.orden-select:focus,
+.limite-contenedor input:focus {
+  border-color: #d01838;
+  box-shadow: 0 0 10px rgba(208, 24, 56, 0.45);
 }
 
 .formulario button {
@@ -108,14 +130,30 @@
 }
 
 .formulario button:hover {
-  background-color: #a50e28;
+  background-color: #b3132f;
+  transform: scale(1.01);
 }
 
 .error {
   color: #ff6b6b;
   font-size: 0.95rem;
-  margin-top: -8px;
-  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.limite-info {
+  margin-top: 12px;
+  color: #cccccc;
+}
+
+.mensaje-alerta {
+  margin-top: 14px;
+  background-color: #ff1f3d;
+  color: #ffffff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255, 31, 61, 0.5);
 }
 
 .lista {
@@ -128,10 +166,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #050505;
-  border: 1px solid #2a2a2a;
+  background-color: #080808;
+  border: 1px solid #2c2c2c;
   border-radius: 14px;
   padding: 18px 20px;
+  transition: 0.3s;
+}
+
+.item:hover {
+  border-color: #7a1020;
+  transform: translateY(-2px);
 }
 
 .ingreso {
@@ -149,19 +193,15 @@
   color: white;
 }
 
-.item-tipo {
-  margin: 6px 0 0 0;
-  color: #dddddd;
-}
-
-.item-categoria {
+.item-tipo,
+.item-categoria,
+.item-fecha {
   margin: 6px 0 0 0;
   color: #cfcfcf;
   font-size: 0.95rem;
 }
 
 .item-fecha {
-  margin: 6px 0 0 0;
   color: #aaaaaa;
   font-size: 0.9rem;
 }
@@ -175,7 +215,7 @@
 
 .item-monto {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: bold;
   color: white;
 }
@@ -213,7 +253,7 @@
 }
 
 .boton-eliminar:hover {
-  background-color: #99152a;
+  background-color: #b3132f;
 }
 
 .boton-cancelar {
@@ -228,10 +268,14 @@
 .sin-movimientos {
   text-align: center;
   color: #d0d0d0;
-  padding: 10px 0;
+  padding: 14px 0;
 }
 
 @media (max-width: 600px) {
+  .app {
+    padding: 24px 12px;
+  }
+
   .contenedor {
     padding: 18px;
   }
@@ -241,7 +285,7 @@
   }
 
   .balance-numero {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
   }
 
   .item {

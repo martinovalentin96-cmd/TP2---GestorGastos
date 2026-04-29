@@ -9,6 +9,7 @@ function App() {
   const [filtroCategoria, setFiltroCategoria] = useState("Todas");
   const [movimientoEditando, setMovimientoEditando] = useState(null);
   const [orden, setOrden] = useState("carga");
+  const [limite, setLimite] = useState("");
 
   const agregarMovimiento = (nuevoMovimiento) => {
     setMovimientos([...movimientos, nuevoMovimiento]);
@@ -44,6 +45,14 @@ function App() {
       : acumulador - movimiento.monto;
   }, 0);
 
+  const totalGastos = movimientos.reduce((acumulador, movimiento) => {
+    return movimiento.tipo === "Gasto"
+      ? acumulador + movimiento.monto
+      : acumulador;
+  }, 0);
+
+  const superoLimite = limite !== "" && totalGastos > Number(limite);
+
   const movimientosFiltrados =
     filtroCategoria === "Todas"
       ? movimientos
@@ -68,7 +77,29 @@ function App() {
       <div className="contenedor">
         <h1 className="titulo">Gestor de Gastos Personales</h1>
 
-        <Balance total={balanceTotal} />
+        <Balance
+          total={balanceTotal}
+          superoLimite={superoLimite}
+        />
+
+        <section className="limite-contenedor">
+          <h2>Límite de gastos</h2>
+
+          <input
+            type="number"
+            placeholder="Ej: 50000"
+            value={limite}
+            onChange={(e) => setLimite(e.target.value)}
+          />
+
+          <p className="limite-info">Gastos actuales: $ {totalGastos}</p>
+
+          {superoLimite && (
+            <p className="mensaje-alerta">
+              Superaste el límite de gastos establecido.
+            </p>
+          )}
+        </section>
 
         <FormularioMovimiento
           onAgregar={agregarMovimiento}

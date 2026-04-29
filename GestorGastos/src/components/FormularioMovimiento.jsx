@@ -60,7 +60,7 @@ function FormularioMovimiento({
         monto: Number(monto),
         tipo,
         categoria,
-        fecha: movimientoEditando.fecha, // mantiene la fecha original
+        fecha: movimientoEditando.fecha,
       };
 
       onGuardarEdicion(movimientoActualizado);
@@ -71,7 +71,7 @@ function FormularioMovimiento({
         monto: Number(monto),
         tipo,
         categoria,
-        fecha: new Date().toLocaleString(), // NUEVO
+        fecha: new Date().toLocaleString(),
       };
 
       onAgregar(nuevoMovimiento);
@@ -124,7 +124,11 @@ function FormularioMovimiento({
         </button>
 
         {movimientoEditando && (
-          <button type="button" className="boton-cancelar" onClick={manejarCancelar}>
+          <button
+            type="button"
+            className="boton-cancelar"
+            onClick={manejarCancelar}
+          >
             Cancelar edición
           </button>
         )}
